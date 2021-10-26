@@ -39,3 +39,35 @@
     color: blue;
 }
 
+#add {
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    margin: 3px;
+}
+
+#add:hover {
+    background-color: bisque;
+}
+
+#del {
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    margin: 3px;
+}
+
+#del:hover {
+    background-color:rgb(6, 136, 119);
+    color: white;
+}

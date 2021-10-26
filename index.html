@@ -6,11 +6,12 @@
     <title>JavaScript and DOM API</title>
     <link rel="stylesheet" type="text/css" href="css/game_css.css" media="all" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="js/game.js"></script>
     <script>
         var bear;
         var bees;
         var updateTimer;
+        var lastStingTime;
+        var numberOfBees = 2;
     </script>
     <script src="js/game.js"></script>
     <noscript>
@@ -22,7 +23,9 @@
 
         <div id="title">
             <h1>Help the bear escape the bees !</h1>
-            <p>Bear tries to avoid being stung by <input type="text" id="nbBees" value="1" size="3"> bees by running and jumping. The objective is to have as less stings as possible!</p>
+            <p>Bear tries to avoid being stung by <input type="text" id="nbBees" onchange="makeBees();" value="1" size="3"> bees by running and jumping. The objective is to have as less stings as possible!</p>
+            <p>Press me to add one more bee to the game!</p><button type="button" id="add" onclick="addBee();">Add a bee</button>
+            <p>Press me to remove one bee from the game!</p><button type="button" id="del" onclick="deleteBee();">Delete a bee</button>
             <p>You can adjust bees' speed <input type="text" id="speedBees" value="50" size="3"> px/ms,
                 <br> the bear's speed <input type="text" id="speedBear" onchange="setSpeed();" value="50" size="3"> px/ms,
                 <br> and the refresh period <input type="text" id="periodTimer" value="10" size="3"> ms.</p>

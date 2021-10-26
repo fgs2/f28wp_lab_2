@@ -1,6 +1,9 @@
 function start() {
     bear = new Bear();
     document.addEventListener("keydown", moveBear, false);
+    document.addEventListener("keydown", function(){
+        lastStingTime = new Date();
+    }, false);
     bees = new Array();
     makeBees();
     updateBees();
@@ -69,6 +72,7 @@ function moveBear(e) {
     if (e.keyCode == KEYUP) {
         bear.move(0, -1);
     }
+    console.log(document.getElementById("nbBees").value);
 }
 
 class Bee { constructor(beeNumber) { 
@@ -136,14 +140,13 @@ function createBeeImg(wNum) { //get dimension and position of board div
 }
 
 function getRandomInt(max) {
-    return Math.floor(Math.random(max));
+    return Math.floor(Math.random() * max);
 }
 
 function makeBees() { 
     //get number of bees specified by the user 
     let nbBees = document.getElementById("nbBees").value; 
-    nbBees = Number(nbBees); 
-    //try converting the content of the input to a number 
+    nbBees = Number(nbBees);  //try converting the content of the input to a number 
     if (isNaN(nbBees)) { 
         //check that the input field contains a valid number 
         window.alert("Invalid number of bees"); 
@@ -151,7 +154,7 @@ function makeBees() {
     } 
     //create bees 
     let i = 1;
-     while (i <= nbBees) { 
+    while (i <= nbBees) { 
         var num = i; 
         var bee = new Bee(num); 
         //create object and its IMG element 
@@ -163,6 +166,22 @@ function makeBees() {
     } 
 }
 
+function addBee() {
+    var bee = new Bee(numberOfBees);
+    bee.display();
+    bees.push(bee);
+    numberOfBees++;
+}
+
+function deleteBee() {
+    console.log(document.getElementById("board").children);
+    bee = "bee" + numberOfBees;
+    var todelete = document.getElementById(bee);
+    todelete.parentNode.removeChild(todelete);
+    var pop = bees.pop();
+    numberOfBees--;
+}
+
 function moveBees() { 
     //get speed input field value 
     let speed = document.getElementById("speedBees").value;
@@ -171,15 +190,69 @@ function moveBees() {
         let dx = getRandomInt(2 * speed) - speed; 
         let dy = getRandomInt(2 * speed) - speed; 
         bees[i].move(dx, dy); 
+        isHit(bees[i], bear);
     } 
 }
 
 function updateBees() { 
     // update loop for game 
-    //move the bees randomly 
+    // move the bees randomly 
     moveBees(); 
+    let hits = document.getElementById("hits").innerHTML;
+    if (hits == 100){
+        clearTimeout(updateTimer);
+        document.getElementsByTagName("body").innerHTML = "Game over!";
+    }
     //use a fixed update period 
     let period = document.getElementById("periodTimer").value; //modify this to control refresh period 
     //update the timer for the next move 
     updateTimer = setTimeout('updateBees()', period); 
+}
+
+function isHit(defender, offender) {
+    if (overlap(defender, offender)){
+        let score = hits.innerHTML;
+        score = Number(score) + 1;
+        hits.innerHTML = score;
+        let newStingTime = new Date();
+        let thisDuration = newStingTime - lastStingTime;
+        lastStingTime = newStingTime;
+        let longestDuration = Number(duration.innerHTML);
+        if (longestDuration === 0) {
+            longestDuration = thisDuration;
+        } else {
+            if (longestDuration < thisDuration) longestDuration = thisDuration;
+        }
+        document.getElementById("duration").innerHTML = longestDuration;
+        if (score == 1000) {
+            alert("Game over! Restarting game...");
+            score = 0;
+            window.location.reload(true);
+        }
+    }
+}
+
+function overlap(element1, element2) {
+    //rectangle of the first element
+    left1 = element1.htmlElement.offsetLeft;
+    top1 = element1.htmlElement.offsetTop;
+    right1 = element1.htmlElement.offsetLeft + element1.htmlElement.offsetWidth;
+    bottom1 = element1.htmlElement.offsetTop + element1.htmlElement.offsetHeight;
+
+    // rectangle of the second element
+    left2 = element2.htmlElement.offsetLeft;
+    top2 = element2.htmlElement.offsetTop;
+    right2 = element2.htmlElement.offsetLeft + element2.htmlElement.offsetWidth;
+    bottom2 = element2.htmlElement.offsetTop + element2.htmlElement.offsetHeight;
+
+    // calculate the intersection of the two rectangles
+    x_intersect = Math.max(0, Math.min(right1, right2) - Math.max(left1, left2));
+    y_intersect = Math.max(0, Math.min(bottom1, bottom2) - Math.max(top1, top2));
+    intersectArea = x_intersect * y_intersect;
+
+    // if intersection is 0, no hit
+    if (intersectArea == 0 || isNaN(intersectArea)) {
+        return false;
+    }
+    return true;
 }

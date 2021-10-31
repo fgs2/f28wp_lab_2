@@ -1,9 +1,22 @@
 function start() {
+    if (typeof bees != "undefined") {
+        console.log(numberOfBees);
+        while (bees.length != 0) {
+            deleteBee();
+        }
+        score = 0;
+        hits.innerHTML = score;
+        numberOfBees = 1;
+        longestDuration = 0;
+        document.getElementById("duration").innerHTML = longestDuration;
+        clearTimeout(updateTimer);
+    }
     bear = new Bear();
     document.addEventListener("keydown", moveBear, false);
-    document.addEventListener("keydown", function(){
-        lastStingTime = new Date();
-    }, false);
+    // document.addEventListener("keydown", function(){
+    //     lastStingTime = new Date();
+    // }, false);
+    lastStingTime = new Date();
     bees = new Array();
     makeBees();
     updateBees();
@@ -72,7 +85,6 @@ function moveBear(e) {
     if (e.keyCode == KEYUP) {
         bear.move(0, -1);
     }
-    console.log(document.getElementById("nbBees").value);
 }
 
 class Bee { constructor(beeNumber) { 
@@ -167,17 +179,22 @@ function makeBees() {
 }
 
 function addBee() {
-    var bee = new Bee(numberOfBees);
+    var bee = new Bee(++numberOfBees);
     bee.display();
     bees.push(bee);
-    numberOfBees++;
 }
 
 function deleteBee() {
+    if (numberOfBees === 0) {
+        alert("There are no bees on the board!");
+        return;
+    }
     console.log(document.getElementById("board").children);
-    bee = "bee" + numberOfBees;
+    bee = String('bee' + numberOfBees);
+    console.log(bee);
     var todelete = document.getElementById(bee);
-    todelete.parentNode.removeChild(todelete);
+    var parent = todelete.parentNode;
+    parent.removeChild(todelete);
     var pop = bees.pop();
     numberOfBees--;
 }
@@ -199,10 +216,6 @@ function updateBees() {
     // move the bees randomly 
     moveBees(); 
     let hits = document.getElementById("hits").innerHTML;
-    if (hits == 100){
-        clearTimeout(updateTimer);
-        document.getElementsByTagName("body").innerHTML = "Game over!";
-    }
     //use a fixed update period 
     let period = document.getElementById("periodTimer").value; //modify this to control refresh period 
     //update the timer for the next move 
@@ -221,13 +234,12 @@ function isHit(defender, offender) {
         if (longestDuration === 0) {
             longestDuration = thisDuration;
         } else {
-            if (longestDuration < thisDuration) longestDuration = thisDuration;
+            if (thisDuration > longestDuration) longestDuration = thisDuration;
         }
         document.getElementById("duration").innerHTML = longestDuration;
         if (score == 1000) {
             alert("Game over! Restarting game...");
-            score = 0;
-            window.location.reload(true);
+            start();
         }
     }
 }

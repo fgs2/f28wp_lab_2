@@ -24,8 +24,9 @@
         <div id="title">
             <h1>Help the bear escape the bees !</h1>
             <p>Bear tries to avoid being stung by <input type="text" id="nbBees" onchange="makeBees();" value="1" size="3"> bees by running and jumping. The objective is to have as less stings as possible!</p>
-            <p>Press me to add one more bee to the game!</p><button type="button" id="add" onclick="addBee();">Add a bee</button>
-            <p>Press me to remove one bee from the game!</p><button type="button" id="del" onclick="deleteBee();">Delete a bee</button>
+            <p>Press the button below to add one more bee to the game!</p><button type="button" id="add" onclick="addBee();">Add a bee</button>
+            <p>Press the button below to remove one bee from the game!</p><button type="button" id="del" onclick="deleteBee();">Delete a bee</button>
+            <p>Press the button below to restart the game!</p><button type="button" id="del" onclick="start();">Restart the game</button>
             <p>You can adjust bees' speed <input type="text" id="speedBees" value="50" size="3"> px/ms,
                 <br> the bear's speed <input type="text" id="speedBear" onchange="setSpeed();" value="50" size="3"> px/ms,
                 <br> and the refresh period <input type="text" id="periodTimer" value="10" size="3"> ms.</p>

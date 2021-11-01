@@ -1,25 +1,23 @@
 function start() {
     if (typeof bees != "undefined") {
-        console.log(numberOfBees);
         while (bees.length != 0) {
             deleteBee();
         }
+        numberOfBees = 1;
         score = 0;
         hits.innerHTML = score;
-        numberOfBees = 1;
         longestDuration = 0;
         document.getElementById("duration").innerHTML = longestDuration;
         clearTimeout(updateTimer);
     }
     bear = new Bear();
     document.addEventListener("keydown", moveBear, false);
-    // document.addEventListener("keydown", function(){
-    //     lastStingTime = new Date();
-    // }, false);
-    lastStingTime = new Date();
+    document.addEventListener("keydown", function(){
+        lastStingTime = new Date();
+        updateBees();
+    }, {once: true});
     bees = new Array();
     makeBees();
-    updateBees();
 }
 
 function Bear() {
@@ -61,7 +59,6 @@ function Bear() {
 
 function setSpeed () {
     bear.dBear = document.getElementById("speedBear").value;
-    console.log("Bear speed is: " +  this.dBear);
 }
 
 // Handles keyboard events
@@ -189,9 +186,7 @@ function deleteBee() {
         alert("There are no bees on the board!");
         return;
     }
-    console.log(document.getElementById("board").children);
     bee = String('bee' + numberOfBees);
-    console.log(bee);
     var todelete = document.getElementById(bee);
     var parent = todelete.parentNode;
     parent.removeChild(todelete);
@@ -237,7 +232,7 @@ function isHit(defender, offender) {
             if (thisDuration > longestDuration) longestDuration = thisDuration;
         }
         document.getElementById("duration").innerHTML = longestDuration;
-        if (score == 1000) {
+        if (score === 1000) {
             alert("Game over! Restarting game...");
             start();
         }
@@ -263,7 +258,7 @@ function overlap(element1, element2) {
     intersectArea = x_intersect * y_intersect;
 
     // if intersection is 0, no hit
-    if (intersectArea == 0 || isNaN(intersectArea)) {
+    if (intersectArea === 0 || isNaN(intersectArea)) {
         return false;
     }
     return true;

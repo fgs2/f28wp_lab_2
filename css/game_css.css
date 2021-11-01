@@ -1,7 +1,7 @@
 #bear {
     position: absolute;
-    left: 100px;
-    /*top: 240px;*/
+    left: 562.25px;
+    top: 240px;
     width: 75px;
     height: 120px;
 }
@@ -16,7 +16,7 @@
 }
 
 #title {
-    background-color: rgb(128, 128, 128);
+    background-color: rgb(221, 215, 215);
     align-content: center;
     align-self: center;
 }
@@ -68,6 +68,5 @@
 }
 
 #del:hover {
-    background-color:rgb(6, 136, 119);
-    color: white;
+    background-color:bisque;
 }

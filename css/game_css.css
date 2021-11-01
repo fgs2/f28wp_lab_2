@@ -39,7 +39,7 @@
     color: blue;
 }
 
-#add {
+button {
     border: none;
     color: black;
     padding: 10px 20px;
@@ -51,22 +51,6 @@
     margin: 3px;
 }
 
-#add:hover {
-    background-color: bisque;
-}
-
-#del {
-    border: none;
-    color: black;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-    transition-duration: 0.4s;
-    margin: 3px;
-}
-
-#del:hover {
+button:hover {
     background-color:bisque;
 }
